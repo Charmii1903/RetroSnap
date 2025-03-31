@@ -84,7 +84,7 @@ export default function FinalPhotostrip({
       <div
         ref={photostripRef}
         className="relative p-4 sm:p-6 rounded-lg shadow-lg flex flex-col items-center border-4 overflow-hidden max-w-xs sm:max-w-md"
-        style={{ backgroundColor }}
+        style={{ backgroundColor, width: "400px" }}
       >
         {/* Note */}
         {note && (
