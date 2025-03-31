@@ -59,12 +59,38 @@ export default function FinalPhotostrip({
       console.error("Error generating high-quality download:", error);
     }
   };
+  const handleShare = async () => {
+    if (!photostripRef.current) return;
+
+    try {
+      const canvas = await html2canvas(photostripRef.current);
+      canvas.toBlob(async (blob) => {
+        if (!blob) return;
+
+        if (navigator.share) {
+          try {
+            const file = new File([blob], "photostrip.png", { type: "image/png" });
+            await navigator.share({
+              files: [file],
+              title: "My Photostrip",
+            });
+          } catch (error) {
+            console.error("Error sharing:", error);
+          }
+        } else {
+          alert("Web Share API not supported in your browser");
+        }
+      });
+    } catch (error) {
+      console.error("Error generating share image:", error);
+    }
+  };
 
   return (
     <div className="relative w-full min-h-screen flex flex-col items-center justify-center bg-yellow-100 px-4 py-8">
       {/* About Button */}
       <motion.div
-        className="absolute top-6 sm:top-7 right-6" 
+        className="absolute top-6 sm:top-7 right-6"
         whileHover={{ opacity: 1 }}
         initial={{ opacity: 100 }}
       >
@@ -83,8 +109,8 @@ export default function FinalPhotostrip({
 
       <div
         ref={photostripRef}
-        className="relative p-4 sm:p-6 rounded-lg shadow-lg flex flex-col items-center border-4 overflow-hidden max-w-xs sm:max-w-md"
-        style={{ backgroundColor, width: "400px" }}
+        className="relative p-6 sm:p-8 rounded-lg shadow-lg flex flex-col items-center border-4 overflow-hidden max-w-xs sm:max-w-md"
+        style={{ backgroundColor, minHeight: "500px" }} // Increase min-height
       >
         {/* Note */}
         {note && (
@@ -96,26 +122,34 @@ export default function FinalPhotostrip({
           </div>
         )}
 
-        {/* Stickers */}
-        {stickers &&
-          stickers.map((sticker, index) => (
-            <img
-              key={index}
-              src={`/${sticker}.png`}
-              alt={`Sticker ${index + 1}`}
-              className="absolute w-8 h-8 sm:w-10 sm:h-10 opacity-80"
-              style={{
-                top: `${Math.random() * 80}%`,
-                left: `${Math.random() * 80}%`,
-                transform: `rotate(${Math.random() * 40 - 20}deg)`,
-              }}
-            />
-          ))}
-
-        <div className="relative flex flex-col gap-2 p-3 sm:p-4 rounded-lg shadow-xl" style={{ backgroundColor: frameColor }}>
+        <div
+          className="relative flex flex-col gap-3 p-6 sm:p-8 rounded-lg shadow-xl border-8"
+          style={{ backgroundColor: frameColor, minHeight: "450px" }} // Increase min-height of the frame
+        >
           {photos.map((photo, index) => (
-            <div key={index} className="w-24 h-24 sm:w-32 sm:h-32 bg-black rounded-md overflow-hidden">
+            <div
+              key={index}
+              className="relative w-30 h-32 sm:w-36 sm:h-40 bg-black rounded-md overflow-hidden "
+            >
               <img src={photo || "/placeholder.svg"} alt={`Photo ${index + 1}`} className="w-full h-full object-cover" />
+
+              {/* Stickers on the Frame (Not on Photo) */}
+              {stickers && stickers.length > 0 && (
+                <>
+                  <img
+                    src={`/${stickers[index % stickers.length]}.png`}
+                    alt={`Sticker 1`}
+                    className="absolute w-10 h-10 sm:w-8 sm:h-8 opacity-90"
+                    style={{ top: "2%", left: "-3%", transform: "rotate(-15deg)" }} // Top-left corner of frame
+                  />
+                  <img
+                    src={`/${stickers[(index + 1) % stickers.length]}.png`}
+                    alt={`Sticker 2`}
+                    className="absolute w-6 h-6 sm:w-8 sm:h-8 opacity-90"
+                    style={{ bottom: "5%", right: "-6%", transform: "rotate(15deg)" }} // Bottom-right corner of frame
+                  />
+                </>
+              )}
             </div>
           ))}
         </div>
@@ -126,7 +160,7 @@ export default function FinalPhotostrip({
           Download <Download className="ml-2 h-4 w-4" />
         </Button>
 
-        <Button className="bg-orange-800 hover:bg-amber-700 text-white px-6 sm:px-8 py-2 rounded flex items-center">
+        <Button onClick={handleShare} className="bg-orange-800 hover:bg-amber-700 text-white px-6 sm:px-8 py-2 rounded flex items-center">
           Share <Share2 className="ml-2 h-4 w-4" />
         </Button>
       </div>
