@@ -2,12 +2,14 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { Upload } from "lucide-react";
 
 interface PhotoBoothStartProps {
-  onStart: () => void;
+  onStart: () => void
+  onUpload: () => void
 }
 
-export default function PhotoBoothStart({ onStart }: PhotoBoothStartProps) {
+export default function PhotoBoothStart({ onStart, onUpload }: PhotoBoothStartProps) {
   const [showAbout, setShowAbout] = useState(false);
 
   return (
@@ -43,21 +45,33 @@ export default function PhotoBoothStart({ onStart }: PhotoBoothStartProps) {
       </h1>
 
       {/* Start button */}
-      <motion.button
-        onClick={onStart}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        className="bg-orange-800 hover:bg-amber-700 text-white px-6 sm:px-8 py-2 font-[prata] mt-4 rounded flex items-center text-sm sm:text-base transition-all"
-      >
-        Click Click
-        <motion.img
-          src="/camera.png"
-          alt="Camera Icon"
-          className="ml-2 h-8 w-6 sm:h-10 sm:w-8"
-          animate={{ rotate: [0, -10, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-        />
-      </motion.button>
+      <div className="flex justify-center items-center gap-4 mt-4">
+        <motion.button
+          onClick={onStart}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="bg-orange-800 hover:bg-amber-700 text-white px-6 sm:px-8 py-2 font-[prata] rounded flex items-center text-sm sm:text-base transition-all"
+        >
+          Click Click
+          <motion.img
+            src="/camera.png"
+            alt="Camera Icon"
+            className="ml-2 h-8 w-6 sm:h-10 sm:w-8"
+            animate={{ rotate: [0, -10, 10, 0] }}
+            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+          />
+        </motion.button>
+
+        <motion.button
+          onClick={onUpload}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="bg-orange-800 hover:bg-amber-700 text-white px-6 sm:px-8 sm:py-4 py-3 font-[prata] rounded flex items-center text-md sm:text-base transition-all"
+        >
+          Upload <Upload className="ml-2 h-5 w-5" />
+        </motion.button>
+      </div>
+
 
       {/* About Popup */}
       {showAbout && (

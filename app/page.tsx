@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import PhotoBoothStart from "@/components/photo-booth-start"
 import CameraCapture from "@/components/camera-capture"
+import PhotoUpload from "@/components/photo-upload"
 import AddNote from "@/components/add-note"
 import CustomizePhotostrip from "@/components/customize-photostrip"
 import FinalPhotostrip from "@/components/final-photostrip"
@@ -39,7 +40,7 @@ export default function PhotoBooth() {
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center" style={{ backgroundColor: "#FFF9D6" }}>
-      {step === 1 && <PhotoBoothStart onStart={() => setStep(2)} />}
+      {step === 1 && <PhotoBoothStart onStart={() => setStep(2)} onUpload={() => setStep(6)} />}
       {step === 2 && <CameraCapture onComplete={handlePhotosComplete} />}
       {step === 3 && <AddNote onSubmit={handleNoteSubmit} />}
       {step === 4 && <CustomizePhotostrip onComplete={handleCustomizationComplete} />}
@@ -52,6 +53,7 @@ export default function PhotoBooth() {
           stickers={selectedStickers}
         />
       )}
+      {step === 6 && <PhotoUpload onComplete={handlePhotosComplete} />}
     </main>
   )
 }

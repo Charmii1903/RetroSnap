@@ -10,12 +10,12 @@ interface CustomizePhotostripProps {
 
 export default function CustomizePhotostrip({ onComplete }: CustomizePhotostripProps) {
   const [backgroundColor, setBackgroundColor] = useState("#FFF9D6"); // Default light yellow
-  const [frameColor, setFrameColor] = useState("#FFB6C1"); // Default light pink
+  const [frameColor, setFrameColor] = useState("#C599B6"); // Default light pink
   const [selectedSticker, setSelectedSticker] = useState<string | null>(null);
   const [showAbout, setShowAbout] = useState(false);
 
-  const frameColors = ["#FFB6C1", "#B6D0FF", "#D6FFB6", "#FFD6B6", "#D6B6FF", "#FFC0CB", "#FF5733"];
-  const backgroundColors = ["#FFF9D6", "#E6F9FF", "#FFE6F9", "#F9FFE6", "#C6E2FF", "#FADADD", "#DFFFD6"];
+  const frameColors = ["#FFB6C1", "#B6D0FF", "#D6FFB6", "#FFD6B6", "#D6B6FF", "#000000", "#FF5733","#B03052","#FFA725","#0D4715","#706D54","#F6F1DE","#2D3250","#6C4E31"];
+  const backgroundColors = ["#C599B6", "#E6F9FF", "#CDC1FF", "#FFB4A2", "#C6E2FF", "#FADADD", "#CCE0AC","#F0EAAC","#EF9C66","#CA8787","#F19ED2","#D1BB9E","#E5E1DA","#7BD3EA"];
 
   const stickers = ["sticker1", "sticker2", "sticker3", "sticker4", "sticker5", "sticker6", "sticker7", "sticker8"];
 
